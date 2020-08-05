@@ -11,7 +11,8 @@
         <div id="app">
             <input type='text' v-model='name'>
             <p>{{name}}</p>
-            <button v-on:click="counter++">Increase</button>
+            <button @click="counter++">Increase</button>
+            <!-- v-bind:href can be replaced with :href -->
             <p> Counter: {{counter}}</p>
             <p> Result: {{output}}</p>
         </div>
