@@ -9,50 +9,122 @@
     </head>
     <body>
         <div id="app">
-            <div 
-                class='demo'
-                :style="{backgroundColor: color}"
-                ></div>
-            <div class='demo' :style="myStyle"></div>
-            <div class='demo' :style="[myStyle, {height: width + 'px'}]"></div>
-            <hr>
-            <input type="text" v-model='color'>
-            <input type="text" v-model='width'>
+            <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" 
+                class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+            <div>
+                <button @click="startEffect">Start Effect</button>
+                <div id="effect" :class="effectClasses"></div>
+            </div>
+            <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+            <div :class="[float, 'blue', 'text-color']">I got no class :(</div>
+            <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+            <div>
+                <input type="text" v-model="userClass">
+                <div :class="[{visible: true}, userClass]"></div>
+            </div>
+            <!-- 4) Let the user enter a class and enter true/ false for another class (create some example 
+                classes) and attach the classes -->
+            <div>
+                <input type="text" v-model="userClass">
+                <input type="text" v-model="isVisible">
+                <div :class="[{visible: isVisible}, userClass]"></div>
+            </div>
+            <!-- 5) Repeat 3) but now with values for styles (instead of class names). 
+                Attach the respective styles.  -->
+            <div>
+                <input type="text" v-model="myStyle.backgroundColor">
+                <div :style="myStyle"></div>
+            </div>
+            <!-- 6) Create a simple progress bar with setInterval and style bindings. 
+                Start it by hitting the below button. -->
+            <div>
+                <button @click="startProgress">Start Progress</button>
+                <div :class="['progress-bar']" :style="progressBar"></div>
+            </div>
         </div>
         <script>
             new Vue({
                 el: '#app', 
                 data: {
-                    color: 'gray',
-                    width: 100  
+                    effectClasses: {
+                        highlight: false,
+                        shrink: true
+                    },
+                    float: 'float',
+                    userClass: '',
+                    isVisible: true,
+                    myStyle: {
+                        width: '100px',
+                        height: '150px',
+                        backgroundColor: 'gray'
+                    },
+                    progressBar: {
+                        width: '0px',
+                        backgroundColor: 'red'
+                    }
+                },
+                watch: {
                 },
                 computed: {
-                    myStyle: function() {
-                        return {
-                            backgroundColor: this.color,
-                            width: this.width + 'px'
-                        }
+                }, 
+                methods: {
+                    startEffect: function() {
+                        var vm = this
+                        setInterval(function() {
+                            vm.effectClasses.highlight = !vm.effectClasses.highlight
+                            vm.effectClasses.shrink = !vm.effectClasses.shrink
+                        }, 1000)
+                    },
+                    startProgress() {
+                        var vm = this
+                        var width = 0
+                        setInterval(function() {
+                            width = width + 10
+                            vm.progressBar.width = width + 'px'
+                        }, 500)
                     }
                 }
             })
         </script>
     </body>
     <style>
-        .demo {
+        #effect {
             width: 100px;
             height: 100px;
-            background-color: gray;
-            display: inline-block;
-            margin: 10px;
+            border: 1px solid black;
         }
-        .red {
+
+        .highlight {
             background-color: red;
+            width: 200px !important;
         }
-        .green {
-            background-color: green;
+
+        .shrink {
+            background-color: gray;
+            width: 50px !important;
         }
+
         .blue {
             background-color: blue;
+        }
+
+        .float {
+            float: right;
+        }
+
+        .text-color {
+            color: yellow;
+        }
+
+        .visible {
+            width: 100px;
+            height: 50px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 20px;
+            border: 1px solid black
         }
     </style>
 </html>
