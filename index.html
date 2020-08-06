@@ -9,8 +9,15 @@
     </head>
     <body>
         <div id="app">
-            <p v-if="show">You can see me!</p>
+            <p v-if="show">You can see me!
+                <span>Hello!</span>
+            </p>
             <p v-else>Do you also see me?</p>
+            <template v-if="show">
+                <h1>Heading</h1>
+                <p>Inside a template</p>
+            </template>
+            <p v-show="show">What about meeee?</p>
             <button @click="show=!show">Switch</button>
         </div>
         <script>
