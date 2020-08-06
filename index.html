@@ -9,6 +9,38 @@
     </head>
     <body>
         <div id="app">
+            <!-- 1) Hook up the button to toggle the display of the two paragraphs. 
+                Use both v-if and v-show and inspect the elements to see the difference -->
+            <div>
+                <button @click="show=!show">Toggle</button>
+                <p v-if="show">You either see me ...</p>
+                <p v-else>...or me</p>
+            </div>
+            <!-- 2) Output an <ul> of array elements of your choice. 
+                Also print the index of each element. -->
+            <ul>
+                <li v-for="(stuff, i) in things" :key="stuff">{{ stuff }} ({{ i }})</li>
+            </ul>
+            <!-- 3) Print all key-value pairs of the following object: 
+                {title: 'Lord of the Rings', author: 'J.R.R. Tolkiens', books: '3'}. 
+                Also print the index of each item. -->
+            <ul v-for="(value, key, index) in myObj">
+                <li> {{key}} ({{index}}): {{value}}</li>
+            </ul>
+            <!-- 4) Print the following object (only the values) 
+                and also create a nested loop for the array: 
+                {name: 'TESTOBJECT', data: [1.67, 1.33, 0.98, 2.21]} 
+                (hint: use v-for and v-if to achieve this) -->
+            <ul v-for="value in testObj">
+                <template v-if="Array.isArray(value)">
+                    <div v-for="element in value">{{element}}</div>
+                </template>
+                <template v-else>
+                    {{value}}
+                </template>
+            </ul>
+            <hr>
+
             <ul>
                 <li v-for="(ingredient, i) in ingredients" :key="ingredient">{{ ingredient }} ({{ i }})</li>
             </ul>
@@ -36,7 +68,11 @@
                     persons: [
                         {name: 'Max', age: 28, color: 'red'},
                         {name: 'Andrew', age: 31, color: 'blue'},
-                    ]
+                    ],
+                    show: true,
+                    things: ['toys', 'car', 'phone'],
+                    myObj: {title: 'Lord of the Rings', author: 'J.R.R. Tolkiens', books: '3'},
+                    testObj: {name: 'TESTOBJECT', id: 10, data: [1.67, 1.33, 0.98, 2.21]}
                 },
                 watch: {
                 },
